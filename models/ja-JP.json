@@ -1,0 +1,50 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "ダーツレーティング",
+      "types": [
+        {
+          "name": "DARTS_TYPE",
+          "values": [
+            {
+              "name": {
+                "value": "ライブ"
+              }
+            },
+            {
+              "name": {
+                "value": "フェニックス"
+              }
+            }
+          ]
+        }
+      ],
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "TypeOnlyIntent",
+          "slots": [
+            {
+              "name": "DartsType",
+              "type": "DARTS_TYPE"
+            }
+          ],
+          "samples": [
+            "{DartsType}"
+          ]
+        }
+      ]
+    }
+  }
+}
