@@ -4,9 +4,9 @@ var Alexa = require("alexa-sdk");
 // For detailed tutorial on how to making a Alexa skill,
 // please visit us at http://alexa.design/build
 
-
 exports.handler = function(event, context) {
     var alexa = Alexa.handler(event, context);
+    alexa.appId = process.env.APP_ID;
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
