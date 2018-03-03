@@ -1,55 +1,55 @@
 'use strict';
-var Alexa = require("alexa-sdk");
 
-// For detailed tutorial on how to making a Alexa skill,
-// please visit us at http://alexa.design/build
+/**
+ * アレクサのSDKライブラリ
+ */
+const Alexa = require("alexa-sdk");
 
+/**
+ * メッセージ格納変数
+ */
+const MESSAGE = require("./message");
+
+/**
+ *
+ * @param event
+ * @param context
+ */
 exports.handler = function(event, context) {
-    var alexa = Alexa.handler(event, context);
+    let alexa = Alexa.handler(event, context);
     alexa.appId = process.env.APP_ID;
     alexa.registerHandlers(handlers);
     alexa.execute();
 };
 
-var handlers = {
+//
+let handlers = {
     'LaunchRequest': function () {
         this.emit('SayHello');
-    },
-    'HelloWorldIntent': function () {
-        this.emit('SayHello');
-    },
-    'MyNameIsIntent': function () {
-        this.emit('SayHelloName');
     },
     'SayHello': function () {
         this.response.speak('Hello World!')
                      .cardRenderer('hello world', 'hello world');
         this.emit(':responseReady');
     },
-    'SayHelloName': function () {
-        var name = this.event.request.intent.slots.name.value;
-        this.response.speak('Hello ' + name)
-            .cardRenderer('hello world', 'hello ' + name);
-        this.emit(':responseReady');
-    },
     'SessionEndedRequest' : function() {
         console.log('Session ended with reason: ' + this.event.request.reason);
     },
     'AMAZON.StopIntent' : function() {
-        this.response.speak('Bye');
-        this.emit(':responseReady');
+        this.emit("AMAZON.CancelIntent");
     },
     'AMAZON.HelpIntent' : function() {
-        this.response.speak("You can try: 'alexa, hello world' or 'alexa, ask hello world my" +
-            " name is awesome Aaron'");
+        this.response.speak(MESSAGE.help.speechOutput)
+            .listen(MESSAGE.help.repromptText);
         this.emit(':responseReady');
     },
     'AMAZON.CancelIntent' : function() {
-        this.response.speak('Bye');
+        this.response.speak(MESSAGE.session.end.speechOutput);
         this.emit(':responseReady');
     },
     'Unhandled' : function() {
-        this.response.speak("Sorry, I didn't get that. You can try: 'alexa, hello world'" +
-            " or 'alexa, ask hello world my name is awesome Aaron'");
+        this.response.speak(MESSAGE.unhandled.speechOutput)
+            .listen(MESSAGE.unhandled.repromptText);
+        this.emit(":responseReady");
     }
 };

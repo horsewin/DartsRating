@@ -3,14 +3,14 @@
     "publishingInformation": {
       "locales": {
         "ja-JP": {
-          "summary": "Sample Short Description",
+          "summary": "ダーツ（ライブ、フェニックス）のスタッツからレーティングを教えてくれるスキルです。",
           "examplePhrases": [
-            "Alexa open hello world",
-            "Alexa tell hello world I am Jeff",
-            "Alexa tell hello world my name is Peter"
+            "アレクサ、ダーツレーティングを開いて",
+            "ライブのレーティングを教えて",
+            "ゼロワンの５００のレーティングを教えて"
           ],
-          "name": "DartsRating",
-          "description": "Sample Full Description"
+          "name": "ダーツレーティング",
+          "description": "ダーツ（ライブ、フェニックス）のスタッツからレーティングを教えてくれるスキルです。"
         }
       },
       "isAvailableWorldwide": true,
