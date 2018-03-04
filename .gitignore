@@ -60,4 +60,4 @@ typings/
 .idea/
 /.ask/
 /lambda/custom/driver.js
-/lambda/custom/UnitJson/
+/UnitJson/

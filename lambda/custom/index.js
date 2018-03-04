@@ -51,8 +51,29 @@ let NewSessionHandler = {
         this.emit(':responseReady');
     },
     'TypeIntent': function () {
-        this.response.speak('Hello World!')
-            .cardRenderer('hello world', 'hello world');
+        let nameSlot = this.event.request.intent.slots.DartsType;
+
+        if (Validater("DARTS_TYPE", nameSlot)) {
+
+        }
+        // let speechOutput;
+        // let vegetableName = PATTERN[nameSlot.value];
+        // if (!vegetableName){
+        //     if (nameSlot.value) {
+        //         speechOutput = util.format(MESSAGE.guide.noinfo.speechOutput, nameSlot.value);
+        //         this.emit(this.event.session.new ? ':welcomeAsk' : ':ask', speechOutput, MESSAGE.guide.noinfo.repromptText);
+        //     } else {
+        //         this.emit(this.event.session.new ? ':welcomeAsk' : ':ask', MESSAGE.guide.error.speechOutput, MESSAGE.guide.error.repromptText);
+        //     }
+        // }else{
+        //     let vegeJson = DATA[vegetableName];
+        //     if (!seasonSlot.value){
+        //         speechOutput = util.format(MESSAGE.action.speechOutput, vegetableName, vegeJson.season, vegeJson.description);
+        //     }else{
+        //         speechOutput = util.format(MESSAGE.action.speechOutput, vegetableName, vegeJson.season, '。');
+        //     }
+        //     this.emit(this.event.session.new ? ':welcomeAsk' : ':ask', speechOutput, MESSAGE.action.repromptText);
+        // }
         this.emit(':responseReady');
     },
     'TypeOnlyIntent': function () {
@@ -74,9 +95,7 @@ let NewSessionHandler = {
         this.emit(':responseReady');
     },
     'Unhandled': function () {
-        this.response.speak(MESSAGE.welcome.base + MESSAGE.welcome.unhandled.speechOutput)
-            .listen(MESSAGE.welcome.repromptText);
-        this.emit(":responseReady");
+        this.emit("LaunchRequest");
     }
 };
 
@@ -109,3 +128,24 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
         this.emit(":responseReady");
     }
 });
+
+const slotJson = require("../../models/ja-JP");
+const Validater = (typeName, checkValue) => {
+    let typeNameArray;
+    for (let key in slotJson.interactionModel.languageModel.types[0]) {
+        if (key.name === typeName) {
+            typeNameArray = key.value;
+            break;
+        }
+    }
+
+    if (!typeNameArray) return false;
+
+    for (let i in typeNameArray) {
+        if (typeNameArray.name.value === checkValue) {
+            return true;
+        }
+    }
+
+    return false;
+}

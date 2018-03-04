@@ -56,7 +56,7 @@ conversation(opts)
     .userSays('Unhandled')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。うまく聞き取れなかったです。どの機種のレーディングを知りたいですか？ </speak>",
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
         "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
     )
     .userSays('AMAZON.CancelIntent')
