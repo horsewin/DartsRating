@@ -43,6 +43,20 @@
           "samples": [
             "{DartsType}"
           ]
+        },
+        {
+          "name": "TypeIntent",
+          "slots": [
+            {
+              "name": "DartsType",
+              "type": "DARTS_TYPE"
+            }
+          ],
+          "samples": [
+            "{DartsType} のレーティングを知りたい",
+            "{DartsType} のレーティング",
+            "{DartsType} が知りたい"
+          ]
         }
       ]
     }
