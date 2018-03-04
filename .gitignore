@@ -61,5 +61,3 @@ typings/
 /.ask/
 /lambda/custom/driver.js
 /lambda/custom/UnitJson/
-/lambda/custom/test/
-lambda/custom/test/

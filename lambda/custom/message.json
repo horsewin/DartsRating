@@ -2,7 +2,10 @@
   "welcome": {
     "base": "ダーツレーティングスキルへようこそ。",
     "speechOutput": "ライブ、フェニックスのどちらのレーディングを知りたいですか？",
-    "repromptText": "ライブ、フェニックスのどちらのレーディングを知りたいですか？"
+    "repromptText": "ライブ、フェニックスのどちらのレーディングを知りたいですか？",
+    "unhandled": {
+      "speechOutput": "うまく聞き取れなかったです。どの機種のレーディングを知りたいですか？"
+    }
   },
   "action": {
     "speechOutput": "%s？",
@@ -18,7 +21,7 @@
     }
   },
   "unhandled": {
-    "speechOutput": "うまく聞き取れなかったです。",
+    "speechOutput": "うまく聞き取れなかったのでもう一度お願いします。",
     "repromptText": "もう一度お願いします"
   }
 }

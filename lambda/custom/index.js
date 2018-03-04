@@ -62,7 +62,7 @@ let NewSessionHandler = {
         console.log('Session ended with reason: ' + this.event.request.reason);
     },
     'AMAZON.HelpIntent': function () {
-        this.response.speak(MESSAGE.help.speechOutput)
+        this.response.speak(MESSAGE.welcome.base + MESSAGE.help.speechOutput)
             .listen(MESSAGE.help.repromptText);
         this.emit(':responseReady');
     },
@@ -74,8 +74,8 @@ let NewSessionHandler = {
         this.emit(':responseReady');
     },
     'Unhandled': function () {
-        this.response.speak(MESSAGE.unhandled.speechOutput)
-            .listen(MESSAGE.unhandled.repromptText);
+        this.response.speak(MESSAGE.welcome.base + MESSAGE.welcome.unhandled.speechOutput)
+            .listen(MESSAGE.welcome.repromptText);
         this.emit(":responseReady");
     }
 };
