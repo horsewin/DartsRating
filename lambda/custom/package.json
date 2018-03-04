@@ -6,6 +6,7 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
+    "alexa-conversation": "^0.2.0",
     "alexa-sdk": "^1.0.0"
   }
 }

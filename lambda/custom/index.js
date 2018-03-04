@@ -45,7 +45,10 @@ exports.handler = function(event, context) {
 //
 let NewSessionHandler = {
     'LaunchRequest': function () {
-        this.emit('TypeIntent');
+        this.response.speak(MESSAGE.welcome.base + MESSAGE.welcome.speechOutput)
+            .listen(MESSAGE.welcome.repromptText);
+        // .cardRenderer('hello world', 'hello world');
+        this.emit(':responseReady');
     },
     'TypeIntent': function () {
         this.response.speak('Hello World!')
