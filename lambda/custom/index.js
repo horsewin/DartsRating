@@ -53,8 +53,8 @@ let NewSessionHandler = {
     'TypeIntent': function () {
         let nameSlot = this.event.request.intent.slots.DartsType;
 
-        if (Validater("DARTS_TYPE", nameSlot)) {
-
+        if (Validator("DARTS_TYPE", nameSlot.value)) {
+            console.log("hoge");
         }
         // let speechOutput;
         // let vegetableName = PATTERN[nameSlot.value];
@@ -130,11 +130,11 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
 });
 
 const slotJson = require("../../models/ja-JP");
-const Validater = (typeName, checkValue) => {
+const Validator = (typeName, checkValue) => {
     let typeNameArray;
     for (let key in slotJson.interactionModel.languageModel.types[0]) {
-        if (key.name === typeName) {
-            typeNameArray = key.value;
+        if (key === "name" && slotJson.interactionModel.languageModel.types[0][key] === typeName) {
+            typeNameArray = slotJson.interactionModel.languageModel.types[0].values;
             break;
         }
     }
@@ -142,7 +142,7 @@ const Validater = (typeName, checkValue) => {
     if (!typeNameArray) return false;
 
     for (let i in typeNameArray) {
-        if (typeNameArray.name.value === checkValue) {
+        if (typeNameArray[i].name.value === checkValue) {
             return true;
         }
     }
