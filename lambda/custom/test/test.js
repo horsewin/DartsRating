@@ -66,6 +66,54 @@ conversation(opts)
     )
     .end();
 
+/**
+ * 機種選択
+ */
+conversation(opts)
+    .userSays('LaunchRequest')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+    )
+    .userSays('TypeIntent', {DartsType: 'ライブ'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> 機種はライブですね。ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .end();
+
+conversation(opts)
+    .userSays('LaunchRequest')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+    )
+    .userSays('TypeIntent', {DartsType: 'フェニックス'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> 機種はフェニックスですね。ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .end();
+
+conversation(opts)
+    .userSays('LaunchRequest')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+    )
+    .userSays('TypeIntent', {DartsType: 'やほ'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> やほは対応外の機種です。ライブかフェニックスのどちらにしますか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+    )
+    .end();
+
 
 // conversation(opts)
 //     .userSays('MyVegetableIntent', {VegetableName: 'にんじん', SeasonName: ''})
