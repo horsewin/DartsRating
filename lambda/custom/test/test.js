@@ -114,6 +114,72 @@ conversation(opts)
     )
     .end();
 
+/**
+ * スタッツ入力
+ */
+conversation(opts)
+    .userSays('LaunchRequest')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+    )
+    .userSays('TypeIntent', {DartsType: 'フェニックス'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> 機種はフェニックスですね。ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('GameIntent', {GameType: 'ゼロワン', Stats: '18.15'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ゼロワンのスタッツが18.15ですね。レーティングは8です。他のレーティングも知りたいですか？ </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('GameIntent', {GameType: 'クリケット', Stats: '1.91'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ゼロワンのスタッツが1.91ですね。レーティングは8です。他のレーティングも知りたいですか？ </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('AMAZON.CancelIntent')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> また話しかけてくださいね。 </speak>"
+    )
+    .end();
+
+conversation(opts)
+    .userSays('LaunchRequest')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+    )
+    .userSays('TypeIntent', {DartsType: 'ライブ'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> 機種はライブですね。ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('GameIntent', {GameType: 'ゼロワン', Stats: '70.0'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ゼロワンのスタッツが70.0ですね。レーティングは8です。他のレーティングも知りたいですか？ </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('GameIntent', {GameType: 'クリケット', Stats: '2.5'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ゼロワンのスタッツが2.5ですね。レーティングは8です。他のレーティングも知りたいですか？ </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('AMAZON.CancelIntent')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> また話しかけてくださいね。 </speak>"
+    )
+    .end();
 
 // conversation(opts)
 //     .userSays('MyVegetableIntent', {VegetableName: 'にんじん', SeasonName: ''})
