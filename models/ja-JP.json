@@ -128,7 +128,22 @@
           "samples": [
             "{GameType} で {Stats}",
             "{GameType} が {Stats}",
-            "{GameType} の {Stats}",
+            "{GameType} の {Stats}"
+          ]
+        },
+        {
+          "name": "GameOnlyIntent",
+          "slots": [
+            {
+              "name": "GameType",
+              "type": "GAME_TYPE"
+            },
+            {
+              "name": "Stats",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
             "{GameType} {Stats}",
             "{Stats} {GameType}"
           ]

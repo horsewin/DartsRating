@@ -37,7 +37,8 @@ exports.handler = function(event, context) {
     alexa.appId = process.env.APP_ID;
     alexa.registerHandlers(
         NewSessionHandler,
-        TypeHandler
+        TypeHandler,
+        GameHandler
     );
     alexa.execute();
 };
@@ -51,16 +52,8 @@ let NewSessionHandler = {
         this.emit(':responseReady');
     },
     'TypeIntent': function () {
-        const nameSlot = this.event.request.intent.slots.DartsType;
-
-        if (Validator("DARTS_TYPE", nameSlot.value)) {
-            this.response.speak(util.format(MESSAGE.action.type.speechOutput, nameSlot.value))
-                .listen(MESSAGE.action.type.repromptText);
-        } else {
-            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
-                .listen(MESSAGE.error.type.repromptText);
-        }
-        this.emit(':responseReady');
+        this.handle.state = state.TYPE_SELECT;
+        this.emitWithState('TypeIntent');
     },
     'TypeOnlyIntent': function () {
         this.emit('TypeIntent');
@@ -86,13 +79,44 @@ let NewSessionHandler = {
 };
 
 let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
-    'TypeOnlyIntent': function () {
-        this.emit("TypeIntent");
-    },
     'TypeIntent': function () {
-        this.response.speak('Hello World!')
-            .cardRenderer('hello world', 'hello world');
+        const nameSlot = this.event.request.intent.slots.DartsType;
+
+        // TODO シノニムを考慮したリクエストに対応させる
+        // "slots": {
+        //     "song": {
+        //         "name": "song",
+        //             "value": "single",
+        //             "resolutions": {
+        //             "resolutionsPerAuthority": [
+        //                 {
+        //                     "authority": "amzn1.er-authority.echo-sdk.amzn1.ask.skill.xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.MEDIA_TYPE",
+        //                     "status": {
+        //                         "code": "ER_SUCCESS_MATCH"
+        //                     },
+        //                     "values": [
+        //                         {
+        //                             "value": {
+        //                                 "name": "song",
+        //                                 "id": "SONG"
+        //                             }
+        //                         }
+        //                     ]
+        //                 }
+        //             ]
+        //         },
+        if (Validator(0, "DARTS_TYPE", nameSlot.value)) {
+            this.handle.state = state.GAME_SELECT;
+            this.response.speak(util.format(MESSAGE.action.type.speechOutput, nameSlot.value))
+                .listen(MESSAGE.action.type.repromptText);
+        } else {
+            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
+                .listen(MESSAGE.error.type.repromptText);
+        }
         this.emit(':responseReady');
+    },
+    'TypeOnlyIntent': function () {
+        this.emitWithState('TypeIntent');
     },
     'SessionEndedRequest': function () {
         console.log('Session ended with reason: ' + this.event.request.reason);
@@ -115,12 +139,50 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     }
 });
 
+let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
+    'GameIntent': function () {
+        const nameSlot = this.event.request.intent.slots.GameType;
+
+        if (Validator(1, "GAME_TYPE", nameSlot.value)) {
+            this.handle.state = state.GAME_SELECT;
+            this.response.speak(util.format(MESSAGE.action.type.speechOutput, nameSlot.value))
+                .listen(MESSAGE.action.type.repromptText);
+        } else {
+            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
+                .listen(MESSAGE.error.type.repromptText);
+        }
+        this.emit(':responseReady');
+    },
+    'GameOnlyIntent': function () {
+        this.emitWithState('GameIntent');
+    },
+    'SessionEndedRequest': function () {
+        console.log('Session ended with reason: ' + this.event.request.reason);
+    },
+    'AMAZON.HelpIntent': function () {
+        this.response.speak(MESSAGE.help.speechOutput)
+            .listen(MESSAGE.help.repromptText);
+        this.emit(':responseReady');
+    },
+    'AMAZON.StopIntent': function () {
+        this.emit("AMAZON.CancelIntent");
+    },
+    'AMAZON.CancelIntent': function () {
+        this.emit("AMAZON.CancelIntent");
+    },
+    'Unhandled': function () {
+        this.response.speak(MESSAGE.unhandled.speechOutput)
+            .listen(MESSAGE.unhandled.repromptText);
+        this.emit(":responseReady");
+    }
+});
+
 const slotJson = require("../../models/ja-JP");
-const Validator = (typeName, checkValue) => {
+const Validator = (index, typeName, checkValue) => {
     let typeNameArray;
-    for (let key in slotJson.interactionModel.languageModel.types[0]) {
-        if (key === "name" && slotJson.interactionModel.languageModel.types[0][key] === typeName) {
-            typeNameArray = slotJson.interactionModel.languageModel.types[0].values;
+    for (let key in slotJson.interactionModel.languageModel.types[index]) {
+        if (key === "name" && slotJson.interactionModel.languageModel.types[index][key] === typeName) {
+            typeNameArray = slotJson.interactionModel.languageModel.types[index].values;
             break;
         }
     }

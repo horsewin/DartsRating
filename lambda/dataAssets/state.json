@@ -1,4 +1,6 @@
 {
   "TYPE_SELECT": "type",
+  "GAME_SELECT": "game",
+  "STATS_SELECT": "stats",
   "LOOPBACK": "login"
 }
