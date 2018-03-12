@@ -26,6 +26,10 @@ const MESSAGE = require("./message");
  */
 const state = require("../dataAssets/state.json");
 
+
+const ER_SUCCESS_MATCH = "ER_SUCCESS_MATCH";
+const ER_SUCCESS_NO_MATCH = "ER_SUCCESS_NO_MATCH";
+
 /**
  * Alexaの処理定義
  * 各状態をハンドリングするハンドラーを追加する必要がある
@@ -81,36 +85,13 @@ let NewSessionHandler = {
 let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     'TypeIntent': function () {
         const nameSlot = this.event.request.intent.slots.DartsType;
-
-        // TODO シノニムを考慮したリクエストに対応させる
-        // "slots": {
-        //     "song": {
-        //         "name": "song",
-        //             "value": "single",
-        //             "resolutions": {
-        //             "resolutionsPerAuthority": [
-        //                 {
-        //                     "authority": "amzn1.er-authority.echo-sdk.amzn1.ask.skill.xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx.MEDIA_TYPE",
-        //                     "status": {
-        //                         "code": "ER_SUCCESS_MATCH"
-        //                     },
-        //                     "values": [
-        //                         {
-        //                             "value": {
-        //                                 "name": "song",
-        //                                 "id": "SONG"
-        //                             }
-        //                         }
-        //                     ]
-        //                 }
-        //             ]
-        //         },
-        if (Validator(0, "DARTS_TYPE", nameSlot.value)) {
+        const value = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
+        if (Validator(nameSlot)) {
             this.handle.state = state.GAME_SELECT;
-            this.response.speak(util.format(MESSAGE.action.type.speechOutput, nameSlot.value))
+            this.response.speak(util.format(MESSAGE.action.type.speechOutput, value))
                 .listen(MESSAGE.action.type.repromptText);
         } else {
-            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
+            this.response.speak(util.format(MESSAGE.error.type.speechOutput, value))
                 .listen(MESSAGE.error.type.repromptText);
         }
         this.emit(':responseReady');
@@ -142,13 +123,13 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
 let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
     'GameIntent': function () {
         const nameSlot = this.event.request.intent.slots.GameType;
-
-        if (Validator(1, "GAME_TYPE", nameSlot.value)) {
+        const value = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
+        if (Validator(nameSlot)) {
             this.handle.state = state.GAME_SELECT;
-            this.response.speak(util.format(MESSAGE.action.type.speechOutput, nameSlot.value))
+            this.response.speak(util.format(MESSAGE.action.type.speechOutput, value))
                 .listen(MESSAGE.action.type.repromptText);
         } else {
-            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
+            this.response.speak(util.format(MESSAGE.error.type.speechOutput, value))
                 .listen(MESSAGE.error.type.repromptText);
         }
         this.emit(':responseReady');
@@ -177,23 +158,13 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
     }
 });
 
-const slotJson = require("../../models/ja-JP");
-const Validator = (index, typeName, checkValue) => {
-    let typeNameArray;
-    for (let key in slotJson.interactionModel.languageModel.types[index]) {
-        if (key === "name" && slotJson.interactionModel.languageModel.types[index][key] === typeName) {
-            typeNameArray = slotJson.interactionModel.languageModel.types[index].values;
-            break;
-        }
-    }
 
-    if (!typeNameArray) return false;
-
-    for (let i in typeNameArray) {
-        if (typeNameArray[i].name.value === checkValue) {
-            return true;
-        }
-    }
-
-    return false;
+/**
+ *
+ * @param slot
+ * @returns {boolean}
+ * @constructor
+ */
+const Validator = (slot) => {
+    return slot.resolutions.resolutionsPerAuthority[0].status.code === ER_SUCCESS_MATCH;
 }
