@@ -7,13 +7,68 @@
           "name": "DARTS_TYPE",
           "values": [
             {
+              "id": "LIVE",
               "name": {
                 "value": "ライブ"
               }
             },
             {
+              "id": "PHOENIX",
               "name": {
                 "value": "フェニックス"
+              }
+            }
+          ]
+        },
+        {
+          "name": "GAME_TYPE",
+          "values": [
+            {
+              "id": "ZERO_ONE",
+              "name": {
+                "value": "ゼロワン",
+                "synonyms": [
+                  "ぜろわん",
+                  "サンマル",
+                  "さんまる",
+                  "サンマルイチ",
+                  "さんまるいち",
+                  "ごーまる",
+                  "ゴーマル",
+                  "ごうまる",
+                  "ゴウマル",
+                  "ごうまるいち",
+                  "ゴーマルイチ",
+                  "ななまる",
+                  "ナナマル",
+                  "ななまるいち",
+                  "ナナマルイチ",
+                  "きゅうまる",
+                  "キュウマル",
+                  "きゅーまる",
+                  "キューマル",
+                  "きゅーまるいち",
+                  "キューマルイチ",
+                  "きゅうまるいち",
+                  "キュウマルイチ",
+                  "いちいちまるいち",
+                  "イチイチマルイチ",
+                  "いちごうまるいち",
+                  "イチゴウマルイチ",
+                  "いちごーまるいち",
+                  "イチゴーマルイチ"
+                ]
+              }
+            },
+            {
+              "id": "CRICKET",
+              "name": {
+                "value": "クリケット",
+                "synonyms": [
+                  "くりけっと",
+                  "くりけ",
+                  "クリケ"
+                ]
               }
             }
           ]
@@ -56,6 +111,26 @@
             "{DartsType} のレーティングを知りたい",
             "{DartsType} のレーティング",
             "{DartsType} が知りたい"
+          ]
+        },
+        {
+          "name": "GameIntent",
+          "slots": [
+            {
+              "name": "GameType",
+              "type": "GAME_TYPE"
+            },
+            {
+              "name": "Stats",
+              "type": "AMAZON.NUMBER"
+            }
+          ],
+          "samples": [
+            "{GameType} で {Stats}",
+            "{GameType} が {Stats}",
+            "{GameType} の {Stats}",
+            "{GameType} {Stats}",
+            "{Stats} {GameType}"
           ]
         }
       ]
