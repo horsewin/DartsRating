@@ -26,9 +26,27 @@ const MESSAGE = require("./message");
  */
 const state = require("./dataAssets/state.json");
 
-
+/**
+ * エンティティ解決時の成功コード
+ * @type {string}
+ */
 const ER_SUCCESS_MATCH = "ER_SUCCESS_MATCH";
+
+/**
+ * エンティティ解決時の失敗コード
+ * @type {string}
+ */
 const ER_SUCCESS_NO_MATCH = "ER_SUCCESS_NO_MATCH";
+
+/**
+ * レーティング情報格納変数
+ */
+const rating = require("./dataAssets/rating");
+let ratingMap = new Map()
+    .set("ライブゼロワン", rating.liveZeroOne)
+    .set("ライブクリケット", rating.liveCricket)
+    .set("フェニックスゼロワン", rating.phoenixZeroOne)
+    .set("フェニックスクリケット", rating.phoenixCricket);
 
 /**
  * Alexaの処理定義
@@ -67,8 +85,8 @@ let NewSessionHandler = {
         console.log('Session ended with reason: ' + this.event.request.reason);
     },
     'AMAZON.HelpIntent': function () {
-        this.response.speak(MESSAGE.welcome.base + MESSAGE.help.speechOutput)
-            .listen(MESSAGE.help.repromptText);
+        this.response.speak(MESSAGE.welcome.base + MESSAGE.help.type.speechOutput)
+            .listen(MESSAGE.help.type.repromptText);
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent' : function() {
@@ -89,6 +107,7 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
         const value = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
         if (customValidator(nameSlot)) {
             this.handler.state = state.GAME_SELECT;
+            this.session.attributes.game = value;
             this.response.speak(util.format(MESSAGE.action.type.speechOutput, value))
                 .listen(MESSAGE.action.type.repromptText);
         } else {
@@ -104,8 +123,8 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
         console.log('Session ended with reason: ' + this.event.request.reason);
     },
     'AMAZON.HelpIntent' : function() {
-        this.response.speak(MESSAGE.help.speechOutput)
-            .listen(MESSAGE.help.repromptText);
+        this.response.speak(MESSAGE.help.type.speechOutput)
+            .listen(MESSAGE.help.type.repromptText);
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent': function () {
@@ -116,13 +135,14 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     },
     'Unhandled' : function() {
         this.response.speak(MESSAGE.unhandled.speechOutput)
-            .listen(MESSAGE.unhandled.repromptText);
+            .listen(MESSAGE.help.repromptText);
         this.emit(":responseReady");
     }
 });
 
 let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
     'GameIntent': function () {
+        const typeValue = this.event.session.attributes.game;
         const nameSlot = this.event.request.intent.slots.GameType;
         if (customValidator(nameSlot)) {
             const gameValue = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
@@ -144,16 +164,15 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
                         stats = Number(statsSlot.value);
                     }
 
-                    // TODO レーティング計算
-                    const rating = checkMyRating(stats);
+                    const rating = checkMyRating(typeValue, gameValue, stats);
 
                     this.response.speak(util.format(MESSAGE.action.game.speechOutput, gameValue, stats.toString(), rating))
                         .listen(MESSAGE.action.game.repromptText);
                 } else {
                     stats = Number(statsSlot.value);
 
-                    // TODO レーティング計算
-                    const rating = checkMyRating(stats);
+                    const rating = checkMyRating(typeValue, gameValue, stats);
+
                     this.response.speak(util.format(MESSAGE.action.game.speechOutput, gameValue, stats.toString(), rating))
                         .listen(MESSAGE.action.game.repromptText);
                 }
@@ -187,7 +206,7 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
     },
     'Unhandled': function () {
         this.response.speak(MESSAGE.unhandled.speechOutput)
-            .listen(MESSAGE.unhandled.repromptText);
+            .listen(MESSAGE.action.game.repromptText);
         this.emit(":responseReady");
     }
 });
@@ -201,7 +220,7 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
  */
 const customValidator = (slot) => {
     return slot && slot.resolutions.resolutionsPerAuthority[0].status.code === ER_SUCCESS_MATCH;
-}
+};
 
 /**
  *
@@ -211,9 +230,19 @@ const customValidator = (slot) => {
  */
 const Validator = (slot) => {
     return slot && slot.value && slot.value !== "?";
-}
+};
 
-
-const checkMyRating = (stats) => {
-    return "8";
-}
+/**
+ *
+ * @param type
+ * @param game
+ * @param stats
+ * @returns {*}
+ */
+const checkMyRating = (type, game, stats) => {
+    const base = ratingMap.get(type + game);
+    for (let i = 0; i < base.length; i++) {
+        if (base[i] > stats) return i;
+    }
+    return "18";
+};
