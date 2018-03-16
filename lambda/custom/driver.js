@@ -1,4 +1,4 @@
-let event = require('../../UnitJson/simple.json');
+let event = require('../../UnitJson/Cricket_decimal');
 
 let context = {
     succeed: function (data) {

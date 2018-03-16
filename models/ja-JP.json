@@ -21,6 +21,21 @@
           ]
         },
         {
+          "name": "FLOAT_TYPE",
+          "values": [
+            {
+              "id": "FLOAT_NUMBER",
+              "name": {
+                "value": "てん",
+                "synonyms": [
+                  "点",
+                  "テン"
+                ]
+              }
+            }
+          ]
+        },
+        {
           "name": "GAME_TYPE",
           "values": [
             {
@@ -123,12 +138,20 @@
             {
               "name": "Stats",
               "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "Float",
+              "type": "FLOAT_TYPE"
+            },
+            {
+              "name": "StatsSmall",
+              "type": "AMAZON.NUMBER"
             }
           ],
           "samples": [
-            "{GameType} で {Stats}",
-            "{GameType} が {Stats}",
-            "{GameType} の {Stats}"
+            "{GameType} で {Stats} {Float} {StatsSmall}",
+            "{GameType} が {Stats} {Float} {StatsSmall}",
+            "{GameType} の {Stats} {Float} {StatsSmall}"
           ]
         },
         {
