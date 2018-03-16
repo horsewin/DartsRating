@@ -55,7 +55,7 @@ let ratingMap = new Map()
  * @param context
  */
 exports.handler = function(event, context) {
-    // console.log(JSON.stringify(event, null, 2));
+    console.log(JSON.stringify(event, null, 2));
     let alexa = Alexa.handler(event, context);
     alexa.appId = process.env.APP_ID;
     alexa.registerHandlers(
@@ -81,6 +81,13 @@ let NewSessionHandler = {
     'TypeOnlyIntent': function () {
         this.emit('TypeIntent');
     },
+    'GameIntent': function () {
+        this.handler.state = state.TYPE_SELECT;
+        this.emitWithState('GameIntent');
+    },
+    'GameOnlyIntent': function () {
+        this.emit('GameIntent');
+    },
     'SessionEndedRequest' : function() {
         console.log('Session ended with reason: ' + this.event.request.reason);
     },
@@ -104,14 +111,14 @@ let NewSessionHandler = {
 let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     'TypeIntent': function () {
         const nameSlot = this.event.request.intent.slots.DartsType;
-        const value = nameSlot.resolutions ? nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name : nameSlot.value;
         if (customValidator(nameSlot)) {
+            const value = nameSlot.resolutions ? nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name : nameSlot.value;
             this.handler.state = state.GAME_SELECT;
-            this.attributes.game = value;
+            this.attributes.type = value;
             this.response.speak(util.format(MESSAGE.action.type.speechOutput, value))
                 .listen(MESSAGE.action.type.repromptText);
         } else {
-            this.response.speak(util.format(MESSAGE.error.type.speechOutput, value))
+            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
                 .listen(MESSAGE.error.type.repromptText);
         }
         this.emit(':responseReady');
@@ -119,20 +126,20 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     'TypeOnlyIntent': function () {
         this.emitWithState('TypeIntent');
     },
-    'GameIntent': () => {
+    'GameIntent': function () {
         const nameSlot = this.event.request.intent.slots.DartsType;
-        const value = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
         if (customValidator(nameSlot)) {
+            const value = nameSlot.resolutions ? nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name : nameSlot.value;
             this.handler.state = state.GAME_SELECT;
-            this.attributes.game = value;
+            this.attributes.type = value;
             this.emitWithState('GameIntent');
         } else {
-            this.response.speak(util.format(MESSAGE.error.type.speechOutput, value))
+            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
                 .listen(MESSAGE.error.type.repromptText);
             this.emit(':responseReady');
         }
     },
-    'GameOnlyIntent': () => {
+    'GameOnlyIntent': function () {
         this.emitWithState('GameIntent');
     },
     'SessionEndedRequest': function () {
@@ -158,10 +165,10 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
 
 let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
     'GameIntent': function () {
-        const typeValue = this.event.session.attributes.game || this.attributes.game;
+        const typeValue = this.event.session.attributes.type || this.attributes.type;
         const nameSlot = this.event.request.intent.slots.GameType;
         if (customValidator(nameSlot)) {
-            const gameValue = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
+            const gameValue = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name || nameSlot.value;
 
             const statsSlot = this.event.request.intent.slots.Stats;
             if (Validator(statsSlot)) {
@@ -182,14 +189,14 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
 
                     const rating = checkMyRating(typeValue, gameValue, stats);
 
-                    this.response.speak(util.format(MESSAGE.action.game.speechOutput, gameValue, stats.toString(), rating))
+                    this.response.speak(util.format(MESSAGE.action.game.speechOutput, typeValue, gameValue, stats.toString(), rating))
                         .listen(MESSAGE.action.game.repromptText);
                 } else {
                     stats = Number(statsSlot.value);
 
                     const rating = checkMyRating(typeValue, gameValue, stats);
 
-                    this.response.speak(util.format(MESSAGE.action.game.speechOutput, gameValue, stats.toString(), rating))
+                    this.response.speak(util.format(MESSAGE.action.game.speechOutput, typeValue, gameValue, stats.toString(), rating))
                         .listen(MESSAGE.action.game.repromptText);
                 }
             } else {
@@ -197,6 +204,7 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
                     .listen(MESSAGE.error.stats.repromptText);
             }
         } else {
+            const gameValue = "私が知らないゲーム";
             this.response.speak(util.format(MESSAGE.error.game.speechOutput, gameValue))
                 .listen(MESSAGE.error.game.repromptText);
         }

@@ -20,8 +20,8 @@ conversation(opts)
     .userSays('LaunchRequest')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('AMAZON.StopIntent')
     .ssmlResponse
@@ -34,8 +34,8 @@ conversation(opts)
     .userSays('AMAZON.HelpIntent')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ダーツレーティングスキルは、ライブかフェニックスのスタッツからレーティングを教えます。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ダーツレーティングスキルは、ライブかフェニックスのスタッツからレーティングを教えます。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('AMAZON.StopIntent')
     .ssmlResponse
@@ -56,8 +56,8 @@ conversation(opts)
     .userSays('Unhandled')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('AMAZON.CancelIntent')
     .ssmlResponse
@@ -73,8 +73,8 @@ conversation(opts)
     .userSays('LaunchRequest')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('TypeIntent', {DartsType: 'ライブ'})
     .ssmlResponse
@@ -88,8 +88,8 @@ conversation(opts)
     .userSays('LaunchRequest')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('TypeIntent', {DartsType: 'フェニックス'})
     .ssmlResponse
@@ -103,14 +103,14 @@ conversation(opts)
     .userSays('LaunchRequest')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('TypeIntent', {DartsType: 'やほ'})
     .ssmlResponse
     .shouldEqual(
         "<speak> やほは対応外の機種です。ライブかフェニックスのどちらにしますか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .end();
 
@@ -121,8 +121,8 @@ conversation(opts)
     .userSays('LaunchRequest')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('TypeIntent', {DartsType: 'フェニックス'})
     .ssmlResponse
@@ -153,8 +153,8 @@ conversation(opts)
     .userSays('LaunchRequest')
     .ssmlResponse
     .shouldEqual(
-        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>",
-        "<speak> ライブ、フェニックスのどちらのレーディングを知りたいですか？ </speak>"
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
     )
     .userSays('TypeIntent', {DartsType: 'ライブ'})
     .ssmlResponse
