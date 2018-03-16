@@ -104,10 +104,10 @@ let NewSessionHandler = {
 let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     'TypeIntent': function () {
         const nameSlot = this.event.request.intent.slots.DartsType;
-        const value = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
+        const value = nameSlot.resolutions ? nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name : nameSlot.value;
         if (customValidator(nameSlot)) {
             this.handler.state = state.GAME_SELECT;
-            this.session.attributes.game = value;
+            this.attributes.game = value;
             this.response.speak(util.format(MESSAGE.action.type.speechOutput, value))
                 .listen(MESSAGE.action.type.repromptText);
         } else {
@@ -118,6 +118,22 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     },
     'TypeOnlyIntent': function () {
         this.emitWithState('TypeIntent');
+    },
+    'GameIntent': () => {
+        const nameSlot = this.event.request.intent.slots.DartsType;
+        const value = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
+        if (customValidator(nameSlot)) {
+            this.handler.state = state.GAME_SELECT;
+            this.attributes.game = value;
+            this.emitWithState('GameIntent');
+        } else {
+            this.response.speak(util.format(MESSAGE.error.type.speechOutput, value))
+                .listen(MESSAGE.error.type.repromptText);
+            this.emit(':responseReady');
+        }
+    },
+    'GameOnlyIntent': () => {
+        this.emitWithState('GameIntent');
     },
     'SessionEndedRequest': function () {
         console.log('Session ended with reason: ' + this.event.request.reason);
@@ -142,7 +158,7 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
 
 let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
     'GameIntent': function () {
-        const typeValue = this.event.session.attributes.game;
+        const typeValue = this.event.session.attributes.game || this.attributes.game;
         const nameSlot = this.event.request.intent.slots.GameType;
         if (customValidator(nameSlot)) {
             const gameValue = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name;
@@ -219,7 +235,12 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
  * @constructor
  */
 const customValidator = (slot) => {
-    return slot && slot.resolutions.resolutionsPerAuthority[0].status.code === ER_SUCCESS_MATCH;
+    if (slot && slot.resolutions) {
+        return slot.resolutions.resolutionsPerAuthority[0].status.code === ER_SUCCESS_MATCH;
+    } else if (slot && slot.value) {
+        return true;
+    }
+    return false;
 };
 
 /**

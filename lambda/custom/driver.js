@@ -1,4 +1,4 @@
-let event = require('../../UnitJson/Cricket_decimal');
+let event = require('../../UnitJson/TypeIntent_launch');
 
 let context = {
     succeed: function (data) {

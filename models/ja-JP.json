@@ -132,6 +132,10 @@
           "name": "GameIntent",
           "slots": [
             {
+              "name": "DartsType",
+              "type": "DARTS_TYPE"
+            },
+            {
               "name": "GameType",
               "type": "GAME_TYPE"
             },
@@ -149,6 +153,12 @@
             }
           ],
           "samples": [
+            "{DartsType} の {GameType} の {Stats} {Float} {StatsSmall}",
+            "{DartsType} の {GameType} で {Stats} {Float} {StatsSmall}",
+            "{DartsType} の {GameType} が {Stats} {Float} {StatsSmall}",
+            "{DartsType} で {GameType} の {Stats} {Float} {StatsSmall}",
+            "{DartsType} で {GameType} で {Stats} {Float} {StatsSmall}",
+            "{DartsType} で {GameType} が {Stats} {Float} {StatsSmall}",
             "{GameType} で {Stats} {Float} {StatsSmall}",
             "{GameType} が {Stats} {Float} {StatsSmall}",
             "{GameType} の {Stats} {Float} {StatsSmall}"
