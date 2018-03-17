@@ -16,9 +16,6 @@ const opts = { // those will be used to generate the requests to your skill
 process.env.FEATURE_FLAG = "1";
 process.env.APP_ID = appID;
 
-/**
- * スタッツ入力
- */
 conversation(opts)
     .userSays('LaunchRequest')
     .ssmlResponse
@@ -60,6 +57,48 @@ conversation(opts)
     .ssmlResponse
     .shouldEqual(
         "<speak> 私が知らないゲームではレーティングは計算できません。ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('Unhandled')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> うまく聞き取れなかったのでもう一度お願いします。 </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .end();
+
+conversation(opts)
+    .userSays('LaunchRequest')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
+    )
+    .userSays('Unhandled')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> うまく聞き取れなかったのでもう一度お願いします。 </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
+    )
+    .end();
+
+conversation(opts)
+    .userSays('LaunchRequest')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> ダーツレーティングスキルへようこそ。ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>",
+        "<speak> ライブ、フェニックスのどちらのレーティングを知りたいですか？ </speak>"
+    )
+    .userSays('TypeIntent', {DartsType: 'フェニックス'})
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> 機種はフェニックスですね。ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>",
+        "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
+    )
+    .userSays('Unhandled')
+    .ssmlResponse
+    .shouldEqual(
+        "<speak> うまく聞き取れなかったのでもう一度お願いします。 </speak>",
         "<speak> ゼロワンまたはクリケットのスタッツを教えて下さい。 </speak>"
     )
     .end();
