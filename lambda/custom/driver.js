@@ -1,4 +1,4 @@
-let event = require('../../UnitJson/TypeIntent_launch');
+let event = require('../../UnitJson/GameIntent_nogame');
 
 let context = {
     succeed: function (data) {

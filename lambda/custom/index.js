@@ -168,7 +168,7 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
         const typeValue = this.event.session.attributes.type || this.attributes.type;
         const nameSlot = this.event.request.intent.slots.GameType;
         if (customValidator(nameSlot)) {
-            const gameValue = nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name || nameSlot.value;
+            const gameValue = nameSlot.resolutions && nameSlot.resolutions.resolutionsPerAuthority[0].values[0].value.name || nameSlot.value;
 
             const statsSlot = this.event.request.intent.slots.Stats;
             if (Validator(statsSlot)) {
