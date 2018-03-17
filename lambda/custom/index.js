@@ -218,8 +218,8 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
         console.log('Session ended with reason: ' + this.event.request.reason);
     },
     'AMAZON.HelpIntent': function () {
-        this.response.speak(MESSAGE.help.speechOutput)
-            .listen(MESSAGE.help.repromptText);
+        this.response.speak(MESSAGE.help.game.speechOutput)
+            .listen(MESSAGE.help.game.repromptText);
         this.emit(':responseReady');
     },
     'AMAZON.StopIntent': function () {
