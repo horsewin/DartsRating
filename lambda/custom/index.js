@@ -69,9 +69,9 @@ exports.handler = function(event, context) {
 //
 let NewSessionHandler = {
     'LaunchRequest': function () {
+        this.handler.state = state.TYPE_SELECT;
         this.response.speak(MESSAGE.welcome.base + MESSAGE.welcome.speechOutput)
             .listen(MESSAGE.welcome.repromptText);
-        // .cardRenderer('hello world', 'hello world');
         this.emit(':responseReady');
     },
     'TypeIntent': function () {
@@ -158,7 +158,7 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
     },
     'Unhandled' : function() {
         this.response.speak(MESSAGE.unhandled.speechOutput)
-            .listen(MESSAGE.help.repromptText);
+            .listen(MESSAGE.error.type.repromptText);
         this.emit(":responseReady");
     }
 });
@@ -230,7 +230,7 @@ let GameHandler = Alexa.CreateStateHandler(state.GAME_SELECT, {
     },
     'Unhandled': function () {
         this.response.speak(MESSAGE.unhandled.speechOutput)
-            .listen(MESSAGE.action.game.repromptText);
+            .listen(MESSAGE.error.game.repromptText);
         this.emit(":responseReady");
     }
 });
