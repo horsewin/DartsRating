@@ -151,6 +151,11 @@
           ],
           "samples": [
             "{DartsType} のレーティングを知りたい",
+            "{DartsType} のレーティングを教えて",
+            "{DartsType} のレーティングをおしえて",
+            "{DartsType} のレーティング知りたい",
+            "{DartsType} のレーティング教えて",
+            "{DartsType} のレーティングおしえて",
             "{DartsType} のレーティング",
             "{DartsType} が知りたい"
           ]
@@ -188,12 +193,34 @@
             "{DartsType} で {GameType} が {Stats} {Float} {StatsSmall}",
             "{GameType} で {Stats} {Float} {StatsSmall}",
             "{GameType} が {Stats} {Float} {StatsSmall}",
-            "{GameType} の {Stats} {Float} {StatsSmall}"
+            "{GameType} の {Stats} {Float} {StatsSmall}",
+            "{DartsType} の {GameType} の {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{DartsType} の {GameType} で {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{DartsType} の {GameType} が {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{DartsType} で {GameType} の {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{DartsType} で {GameType} で {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{DartsType} で {GameType} が {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{GameType} で {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{GameType} が {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{GameType} の {Stats} {Float} {StatsSmall} のレーティングを教えて",
+            "{DartsType} の {GameType} の {Stats} {Float} {StatsSmall} のレーティング",
+            "{DartsType} の {GameType} で {Stats} {Float} {StatsSmall} のレーティング",
+            "{DartsType} の {GameType} が {Stats} {Float} {StatsSmall} のレーティング",
+            "{DartsType} で {GameType} の {Stats} {Float} {StatsSmall} のレーティング",
+            "{DartsType} で {GameType} で {Stats} {Float} {StatsSmall} のレーティング",
+            "{DartsType} で {GameType} が {Stats} {Float} {StatsSmall} のレーティング",
+            "{GameType} で {Stats} {Float} {StatsSmall} のレーティング",
+            "{GameType} が {Stats} {Float} {StatsSmall} のレーティング",
+            "{GameType} の {Stats} {Float} {StatsSmall} のレーティング"
           ]
         },
         {
           "name": "GameOnlyIntent",
           "slots": [
+            {
+              "name": "DartsType",
+              "type": "DARTS_TYPE"
+            },
             {
               "name": "GameType",
               "type": "GAME_TYPE"
@@ -201,11 +228,21 @@
             {
               "name": "Stats",
               "type": "AMAZON.NUMBER"
+            },
+            {
+              "name": "Float",
+              "type": "FLOAT_TYPE"
+            },
+            {
+              "name": "StatsSmall",
+              "type": "AMAZON.NUMBER"
             }
           ],
           "samples": [
-            "{GameType} {Stats}",
-            "{Stats} {GameType}"
+            "{DartsType} {GameType} {Stats} {Float} {StatsSmall}",
+            "{GameType} {Stats} {Float} {StatsSmall}",
+            "{Stats} {Float} {StatsSmall} {GameType} {DartsType}",
+            "{Stats} {Float} {StatsSmall} {GameType}"
           ]
         }
       ]
