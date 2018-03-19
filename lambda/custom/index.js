@@ -118,7 +118,10 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
             this.response.speak(util.format(MESSAGE.action.type.speechOutput, value))
                 .listen(MESSAGE.action.type.repromptText);
         } else {
-            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
+            const speechOutput = nameSlot.value ?
+                util.format(MESSAGE.error.type.speechOutput, nameSlot.value) :
+                MESSAGE.error.type.speechOutput2;
+            this.response.speak(speechOutput)
                 .listen(MESSAGE.error.type.repromptText);
         }
         this.emit(':responseReady');
@@ -134,7 +137,10 @@ let TypeHandler = Alexa.CreateStateHandler(state.TYPE_SELECT, {
             this.attributes.type = value;
             this.emitWithState('GameIntent');
         } else {
-            this.response.speak(util.format(MESSAGE.error.type.speechOutput, nameSlot.value))
+            const speechOutput = nameSlot.value ?
+                util.format(MESSAGE.error.type.speechOutput, nameSlot.value) :
+                MESSAGE.error.type.speechOutput2;
+            this.response.speak(speechOutput)
                 .listen(MESSAGE.error.type.repromptText);
             this.emit(':responseReady');
         }
